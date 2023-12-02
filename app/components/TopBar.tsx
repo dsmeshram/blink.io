@@ -12,7 +12,6 @@ const TopBar = (prop : any) => {
     function logout() {
       signOut();
       router.push("/")
-      router.refresh()
     }
 
     function change(type : string){
