@@ -80,24 +80,24 @@ const authOptions: NextAuthOptions = {
         })
     ],
     callbacks: {
-        async jwt({token, user, account}) {
-            console.log("checking JWR ....")
-            if (account && user){
-                return {
-                    accessToken: account.accessToken,
-                    accessTokenExpires: Date.now() + account.expires_in * 1000,
-                    refreshToken: account.refresh_token,
-                    user, 
-                }
-            }
+      //   async jwt({token, user, account}) {
+      //       console.log("checking JWR ....")
+      //       if (account && user){
+      //           return {
+      //               accessToken: account.accessToken,
+      //               accessTokenExpires: Date.now() + account?.expires_in * 1000,
+      //               refreshToken: account.refresh_token,
+      //               user, 
+      //           }
+      //       }
 
-            if (Date.now() < token.accessTokenExpires){
-                return token
-            }
+      //       if (Date.now() < token?.accessTokenExpires){
+      //           return token
+      //       }
 
-            return refreshAccessToken(token)
+      //       return refreshAccessToken(token)
            
-       },
+      //  },
       },
     
     secret: process.env.NEXTAUTH_SECRET
