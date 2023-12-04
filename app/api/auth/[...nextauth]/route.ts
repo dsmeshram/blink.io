@@ -80,7 +80,7 @@ const authOptions: NextAuthOptions = {
         })
     ],
     callbacks: {
-        async jwt(token, user, account) {
+        async jwt({token, user, account}) {
             console.log("checking JWR ....")
             if (account && user){
                 return {

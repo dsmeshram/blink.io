@@ -14,9 +14,9 @@ const GoogleSignIn = () => {
   return (
 
     isSubmitting === true ? (
-      <Button isLoading
+      <Button isLoading color='secondary'
         type="button" onClick={onclick_g}
-        className="flex items-center bg-transparent hover:bg-gray-300 text-black-700 font-normal hover:border-transparent rounded p-2"
+        className=" flex items-center bg-transparent hover:bg-gray-300 text-black-700 font-normal hover:border-transparent rounded p-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@ const GoogleSignIn = () => {
         {!isSubmitting ? ('Sign with google') : ('Loading...')}
       </Button>
     ) : (
-      <Button
+      <Button color='primary'
         type="button" onClick={onclick_g}
         className="flex items-center bg-transparent hover:bg-gray-300 text-black-700 font-normal hover:border-transparent rounded p-2"
       >
