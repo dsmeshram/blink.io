@@ -1,9 +1,13 @@
 import { Launchpad } from "./components/Launchpad"
-import { Card, CardBody, CardHeader, Chip } from "@nextui-org/react"
+import { Card, CardBody, CardHeader, Chip, Image } from "@nextui-org/react"
 
 import bg from "./banner.jpg"
 import Testimonial from "./components/Testimonial"
 import Pricing from "./components/Pricing"
+
+import anaysis_bg from "./analysis.png"
+import apps_bg from "./3rdoartyapps.png"
+import events_bg from "./events.jpg"
 
 
 export default function Home() {
@@ -59,7 +63,15 @@ export default function Home() {
 
 
         <div className="xl:pl-80 xl:pr-80 sm:pl-4 sm:pr-4 gap-4 grid xl:grid-cols-3 sm:grid-cols-1  justify-stretch pt-8 pb-8">
-          <Card className="p-4">
+          <Card className="p-4"> <Image
+        alt="Woman listing to music"
+        className="justify-center  m-5 h-32"
+        width={300}
+        isZoomed
+        isBlurred
+        height={50}
+        src={events_bg.src}
+      />
             <CardHeader className="font-semibold">
               Power Event&ldquo;s
             </CardHeader>
@@ -69,6 +81,15 @@ export default function Home() {
           </Card>
 
           <Card className="p-4">
+          <Image
+        alt="Woman listing to music"
+        className="justify-center  m-5 h-32"
+        width={300}
+        isZoomed
+        isBlurred
+        height={50}
+        src={apps_bg.src}
+      />
             <CardHeader className="font-semibold">
               3rd Party Applications
             </CardHeader>
@@ -82,9 +103,19 @@ export default function Home() {
               </div>
             </CardBody>
           </Card>
-          <Card className="p-4">
+          <Card className="p-4 items-center"  >
+          <Image
+        alt="Woman listing to music"
+        className="justify-center  m-5 h-32"
+        width={300}
+        isZoomed
+        isBlurred
+        height={50}
+        src={anaysis_bg.src}
+      />
             <CardHeader className="font-semibold">
-              Analysis
+              <p>Analysis</p>
+
             </CardHeader>
             <CardBody>
               <p>Find social imapact of your share events to know your place </p>
