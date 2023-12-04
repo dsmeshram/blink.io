@@ -21,6 +21,8 @@ const UserEvents = () => {
 
   const [events, setEvents] = React.useState<Events[]>([]);
 
+  const [selectedevent, setSelectedEvent] = React.useState<Event>();
+
   function add_new_event() {
     onOpen()
   }
@@ -35,7 +37,12 @@ const UserEvents = () => {
   }
 
   function onViewEvent(event_id: any){
-    
+    const event = null
+    events.map((e : any)=>{
+      if (e.event.id === event_id){
+        setSelectedEvent(e)
+      }
+    })
     onOpen()
   }
 
@@ -101,7 +108,7 @@ const UserEvents = () => {
                 Add New Event
               </ModalHeader>
               <ModalBody>
-                <EventPage event_Save={event_Save} onSuccess={onSuccess}></EventPage>
+                <EventPage  selectedevent={selectedevent} event_Save={event_Save} onSuccess={onSuccess}></EventPage>
               </ModalBody>
 
             </>

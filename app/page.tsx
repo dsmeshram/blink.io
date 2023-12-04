@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main >
       <div className="">
-        <div className=" pl-80 pr-80 h-96  pt-4 pb-4 bg-image" style={{
+        <div className=" xl:pl-80 xl:pr-80 h-96  xl:pt-4 xl:pb-4 bg-image sm:pl-40 sm:pr-40 sm:pt-4 sm:pb-4" style={{
           backgroundImage: `url(${bg.src})`,
           width: "100%",
           height: "100%",
@@ -22,8 +22,8 @@ export default function Home() {
             <Chip className="bg-slate-100 py-1.5 pl-2.5 pr-3 text-xs font-semibold text-slate-500 transition hover:border-slate-700/20">v1.0</Chip>
           </div>
 
-          <div className="pt-16 gap-4 grid-flow-row">
-            <div className="p-4 order-first flex items-center justify-center gap-4 text-[0.8125rem] leading-6 text-slate-500 lg:justify-start">
+          <div className="xl:pt-16 sm:pt-6 gap-4 grid-flow-row">
+            <div className="xl:p-4 sm:p-2 order-first flex items-center justify-center gap-4 text-[0.8125rem] leading-6 text-slate-500 lg:justify-start">
 
               <p>
                 14+ APPLICATINS
@@ -35,7 +35,7 @@ export default function Home() {
               </p>
               <svg viewBox="0 0 2 2" aria-hidden="true" className="w-0.5 fill-current"><circle cx="1" cy="1" r="1"></circle></svg>
             </div>
-            <h1 className="text-4xlsm:text-6xl font-semibold leading-9 tracking-tight  md:text-4xl" color="#323232">
+            <h1 className="text-4xl sm:text-6xl font-semibold leading-9 tracking-tight  md:text-4xl" color="#323232">
               Creating you from <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Your Brand</span></h1>
             <br>
 
@@ -49,7 +49,7 @@ export default function Home() {
 
 
         </div>
-        <div className="pl-80 pr-80 gap-4 grid md:grid-cols-3 sm:grid-cols-1  justify-stretch pt-8 pb-8">
+        <div className="xl:pl-80 xl:pr-80 sm:pl-4 sm:pr-4 gap-4 grid xl:grid-cols-3 sm:grid-cols-1  justify-stretch pt-8 pb-8">
           <Card className="p-4">
             <CardHeader className="font-semibold">
               Power Event&ldquo;s

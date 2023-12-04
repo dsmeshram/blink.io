@@ -42,9 +42,17 @@ export const get_user_event = async (user_id: string) => {
 }
 
 
-export const update_user_event = async (user_id: string,req: any) => {
-    const user_event_obj = await prisma.userEvent.findMany({
-        where: { user_id: user_id }, include:{event: true} 
+export const update_user_event = async (user_id: string,body: any) => {
+    const event_obj = {
+        event_date:body.event_date, event_name: body.event_name, event_type: body.event_type, event_desc: body.event_desc
+    }
+    const user_event_obj = await prisma.userEvent.update({
+        where: { user_id: user_id , event_id :body.event_id }, 
+        data: {
+            event: {
+                create: event_obj
+            }
+          },
     })
     return user_event_obj
 }

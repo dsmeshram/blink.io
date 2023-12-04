@@ -3,6 +3,7 @@
 import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 
 const events_type = [
@@ -24,18 +25,46 @@ interface IFormInput {
 }
 
 
-const EventPage = (event_Save : any, onSuccess: any) => {
-  const router = useRouter()
+const EventPage = (prop : any) => {
   var curr = new Date();
   curr.setDate(curr.getDate());
   var date = curr.toISOString().substring(0, 10);
 
-  const { register, handleSubmit, control } = useForm<IFormInput>()
+ 
+  const [registeredAddresses, setRegisteredAddresses] = useState([]);
+
+  const { register, handleSubmit, setValue } = useForm<IFormInput>()
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     
     data["event_date"] =  data["event_date"]+ ":07.923Z"
-    console.log(data)
+    if (prop.selectedevent?.event){
+
+      console.log(prop.selectedevent.event)
+      data["event_id"] =  prop.selectedevent.event.id
+      const response = await fetch('/api/userevents', {
+        method: 'PATCH', // or 'POST', 'PUT', etc.
+        headers: {
+          'Content-Type': 'application/json', // Adjust the content type based on your API's requirements
+          'Authorization': localStorage.getItem("Authorization") as string, // Add any other headers as needed
+        },
+        // You can include a body for POST or PUT requests
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const result = await response.json();
+  
+      if (result.status == 201) {
+        prop.onSuccess()
+      } else {
+        alert("event fail to add")
+      }
+    }
+  
     const response = await fetch('/api/userevents', {
       method: 'POST', // or 'POST', 'PUT', etc.
       headers: {
@@ -53,7 +82,7 @@ const EventPage = (event_Save : any, onSuccess: any) => {
     const result = await response.json();
 
     if (result.status == 201) {
-      event_Save.onSuccess()
+      prop.onSuccess()
     } else {
       alert("event fail to add")
     }
@@ -61,15 +90,35 @@ const EventPage = (event_Save : any, onSuccess: any) => {
   }
 
   function oncalel(){
-    event_Save.event_Save()
+    prop.event_Save()
   }
+
+
+  useEffect(() => {
+    if (prop.selectedevent?.event as IFormInput) {
+      setRegisteredAddresses(prop.selectedevent.event);
+    }
+}, []);
+
+useEffect(() => {
+  if (registeredAddresses && prop.selectedevent?.event) {
+    date = new Date(prop.selectedevent?.event.event_date).toDateString()
+    setValue("event_name", prop.selectedevent.event.event_name);
+    setValue("event_type", "101" as string);
+    setValue("event_desc", prop.selectedevent.event.event_desc);
+    setValue("event_date", new Date(prop.selectedevent.event.event_date).toDateString());
+  }
+}, [registeredAddresses]);
 
 
   return (
     <form className=' w-full h-full ' onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full flex flex-col gap-4">
-        <Input color="primary" type="text" label="Event Name" className=' w-1/3'  {...register("event_name")} />
-        <Input color="primary" type="datetime-local" label="Event Date" defaultValue={date} className='w-fit' {...register("event_date")} />
+        <p>Event Name</p>
+        <Input color="primary" type="text"  className=' w-1/3'  {...register("event_name")} />
+        <p>Event Date and Time</p>
+        <Input color="primary" type="datetime-local"  defaultValue={date} className='w-fit' {...register("event_date")} />
+        <p>Select an Event Typ</p>
         <Select
           label="Select an Event Type"
           className="max-w-xs "
@@ -83,13 +132,15 @@ const EventPage = (event_Save : any, onSuccess: any) => {
             </SelectItem>
           ))}
         </Select>
+        <p>Event Details</p>
         <Textarea
           color="primary"
           {...register("event_desc")}
-          label="Description"
           placeholder="Enter your description"
           className="max-w-xl "
         />
+        <p>To Email Address</p>
+        <Input size="sm" type="email" color="primary"  className="max-w-xl " />
 
         <Checkbox defaultSelected>Auto Generate Tag&lsquo;s</Checkbox>
        

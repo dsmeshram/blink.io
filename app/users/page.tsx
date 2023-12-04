@@ -13,7 +13,7 @@ const UserPage = () => {
     setSelected(type)
   }
   return (
-    <div className="flex w-full flex-col  pl-80 pr-80 pt-4 h-screen ">
+    <div className="xl:pl-80 xl:pr-80 h-96  xl:pt-4 xl:pb-4 bg-image sm:pl-40 sm:pr-40 sm:pt-4 sm:pb-4">
 
       <TopBar onselectionchage={onselectionchage}/>
       {selected == "EVENTS" && <UserEvents />}

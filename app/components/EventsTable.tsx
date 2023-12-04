@@ -30,6 +30,10 @@ const EventsTable = (prop: any) => {
 
     console.log(prop)
 
+    if (prop.selectedevent){
+        console.log(prop.selectedevent)
+    }
+
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
     const [page, setPage] = React.useState(1);

@@ -1,13 +1,20 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import GitHubSignIn from './GitHubSignIn';
 import GoogleSignIn from './GoogleSignIn';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import UserProfile from './userProfile';
 export const Launchpad = () => {
 
   const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session?.error === "RefreshAccessTokenError") {
+      signIn(); // Force sign in to hopefully resolve error
+    }
+  }, [session]);
+
   if (session) {
     return (
         <UserProfile></UserProfile>

@@ -27,6 +27,9 @@ export const POST = async (req: Request, res: Response) => {
         }else{
             const user = await createUser(body.user_name, body.user_email)
             // mapp prefine events
+            if (user){
+                
+            }
             
             const email = body.user_email;
             const user_id = user.id;
