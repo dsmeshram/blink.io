@@ -22,6 +22,7 @@ interface IFormInput {
   event_date: string;
   event_desc: string;
   event_type: string;
+  event_id : string;
 }
 
 

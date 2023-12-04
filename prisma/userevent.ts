@@ -47,7 +47,7 @@ export const update_user_event = async (user_id: string,body: any) => {
         event_date:body.event_date, event_name: body.event_name, event_type: body.event_type, event_desc: body.event_desc
     }
     const user_event_obj = await prisma.userEvent.update({
-        where: { user_id: user_id , event_id :body.event_id }, 
+        where: { user_id: user_id , id :body.event_id }, 
         data: {
             event: {
                 create: event_obj
