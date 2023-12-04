@@ -10,7 +10,7 @@ export const Launchpad = () => {
   const { data: session } = useSession()
 
   useEffect(() => {
-    if (session?.error === "RefreshAccessTokenError") {
+    if (session?.expires === "RefreshAccessTokenError") {
       signIn(); // Force sign in to hopefully resolve error
     }
   }, [session]);
