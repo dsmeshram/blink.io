@@ -10,8 +10,8 @@ const TopBar = (prop : any) => {
     const { data: session } = useSession()
   
     function logout() {
-      signOut();
-      router.push("/")
+      signOut({ callbackUrl: '/' })
+      
     }
 
     function change(type : string){

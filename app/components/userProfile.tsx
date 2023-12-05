@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Card, CardBody, CardHeader, User } from '@nextui-org/react'
+import { Button, Card, CardBody, CardFooter, CardHeader, Image, User } from '@nextui-org/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -39,51 +39,46 @@ const UserProfile = () => {
         })
     }
     return (
-        <Card className='w-fit'>
-            <CardHeader className='p-4'>
-                Welcome to Blink!
-            </CardHeader>
-            <CardBody className='flex'>
-                <div className='flex gap-4'>
-                    <User
-                        name={session?.user?.name}
-                        description={session?.user?.email}
-                        avatarProps={{
-                            src: session?.user?.image as string
-                        }}
+
+        <Card
+        isFooterBlurred
+        radius="lg"
+        className="border-none"
+      >
+        <Image
+          alt={session?.user?.name || 'user profile'}
+          className="object-cover"
+          height={200}
+          src={session?.user?.image as string}
+          width={200}
+        />
+        <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+          <p className="text-tiny text-white/80">{session?.user?.email}</p>
+        </CardFooter>
+      </Card>
+        // <Card className='w-80 p-4'>
+        //     <CardHeader className='p-4'>
+        //         Welcome to Blink!
+        //     </CardHeader>
+        //     <CardBody className='flex'>
+        //         <div className='flex gap-4'>
+        //             <User
+        //                 name={session?.user?.name}
+        //                 description={session?.user?.email}
+        //                 avatarProps={{
+        //                     src: session?.user?.image as string
+        //                 }}
 
 
-                    />
+        //             />
 
-                    <button
-                        type="button" onClick={() => signOut()}
-                        className="rounded-full flex items-center bg-transparent hover:bg-blue-500 text-sm font-medium  text-blue-700 hover:text-white px-2 border border-pink-200 hover:border-transparent  "
-                    >
-
-                        Sign out
-                    </button>
-
-                    {isSubmitting === true ? (
-                        <Button isLoading color='secondary'
-                            type="button" onClick={() => onSignin()}
-                            className="rounded-full inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white  "
-                        >
-                            Start
-                        </Button>
-                    ) : (
-                        <Button color='secondary'
-                            type="button" onClick={() => onSignin()}
-                            className="rounded-full inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white "
-                        >
-                            Start
-                        </Button>
-                    )}
+                    
 
 
 
-                </div>
-            </CardBody>
-        </Card>
+        //         </div>
+        //     </CardBody>
+        // </Card>
 
 
 

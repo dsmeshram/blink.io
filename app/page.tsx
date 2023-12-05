@@ -8,16 +8,15 @@ import Pricing from "./components/Pricing"
 import anaysis_bg from "./analysis.png"
 import apps_bg from "./3rdoartyapps.png"
 import events_bg from "./events.jpg"
+import { useSession } from "next-auth/react"
 
 
 export default function Home() {
-
-
   
   return (
     <main >
       <div className="">
-        <div className=" xl:pl-80 xl:pr-80 h-96  xl:pt-4 xl:pb-4 bg-image sm:pl-40 sm:pr-40 sm:pt-4 sm:pb-4" style={{
+        <div className=" xl:pl-80 xl:pr-80 h-[52rem]  xl:pt-4 xl:pb-4 bg-image sm:pl-40 sm:pr-40 sm:pt-4 sm:pb-4" style={{
           backgroundImage: `url(${bg.src})`,
           width: "100%",
           height: "100%",
@@ -25,10 +24,10 @@ export default function Home() {
           <div className="flex gap-4 text-center items-center">
             <h1 className="font-extrabold text-2xl " color="#323232">Blink</h1>
 
-            <Chip className="bg-slate-100 py-1.5 pl-2.5 pr-3 text-xs font-semibold text-slate-500 transition hover:border-slate-700/20">v1.0</Chip>
+            <Chip className="bg-blue-500 py-1.5 pl-2.5 pr-3 text-xs font-semibold text-white transition hover:border-slate-700/20" size="sm">v1.0</Chip>
           </div>
 
-          <div className="xl:pt-16 sm:pt-6 gap-4 grid-flow-row">
+          <div className="xl:pt-16 sm:pt-6 gap-4 grid-flow-row text-center items-center justify-center">
             <div className="xl:p-4 sm:p-2 order-first flex items-center justify-center gap-4 text-[0.8125rem] leading-6 text-slate-500 lg:justify-start">
 
               <p>
@@ -41,8 +40,9 @@ export default function Home() {
               </p>
               <svg viewBox="0 0 2 2" aria-hidden="true" className="w-0.5 fill-current"><circle cx="1" cy="1" r="1"></circle></svg>
             </div>
-            <h1 className="text-4xl sm:text-6xl font-semibold leading-9 tracking-tight  md:text-4xl" color="#323232">
+            <h1 className="text-center text-6xl sm:text-6xl font-extrabold leading-9 tracking-tight  md:text-6xl" color="#323232">
               Creating you from <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Your Brand</span></h1>
+              <p className="text-6xl text-center font-extrabold">Create, Schedule, share With Blink at your side.</p>
             <br>
 
             </br>

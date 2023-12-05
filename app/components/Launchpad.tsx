@@ -5,9 +5,11 @@ import GitHubSignIn from './GitHubSignIn';
 import GoogleSignIn from './GoogleSignIn';
 import { signIn, useSession } from 'next-auth/react';
 import UserProfile from './userProfile';
+import { useRouter } from 'next/navigation';
 export const Launchpad = () => {
 
   const { data: session } = useSession()
+  const router = useRouter();
 
   useEffect(() => {
     if (session?.expires === "RefreshAccessTokenError") {
@@ -16,9 +18,7 @@ export const Launchpad = () => {
   }, [session]);
 
   if (session) {
-    return (
-        <UserProfile></UserProfile>
-    )
+    router.push("/onboarding");
   } else {
     return (
       <div className='items-center space-x-4 inline-flex'>
