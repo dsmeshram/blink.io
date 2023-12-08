@@ -69,7 +69,7 @@ const TopBar = (prop : any) => {
             <User
             as="button"
             avatarProps={{
-              src: {img}
+              src:""
             }}
             className="transition-transform"
             description={session?.user?.email || ""}

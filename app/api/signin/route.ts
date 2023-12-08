@@ -16,9 +16,9 @@ export const GET = async (req: Request, res: Response) => {
 
         const dbuser = await isUserExist(user.user_email)
         if (user != null){
-            const user_id = dbuser.id;
-            const user_name = dbuser.user_name;
-            const user_email = dbuser.user_email;
+            const user_id = dbuser?.id;
+            const user_name = dbuser?.user_name;
+            const user_email = dbuser?.user_email;
             const token = jwt.sign({ user_email ,user_id ,user_name: user_name}, process.env.JWT_SECRET as string);
             return NextResponse.json({ status: 200, token: token })
         }

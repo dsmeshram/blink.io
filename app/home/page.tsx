@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import NoEvents from '../components/NoEvents';
 import { useRouter } from 'next/navigation';
 import TopBar from '../components/TopBar';
 
@@ -14,11 +13,9 @@ interface Events {
   event_date: string
   status: string
 }
-interface Props {
-  children: React.ReactNode
-}
 
-const HomePage = ({ children }: Props)  => {
+
+const HomePage = ()  => {
   const router = useRouter();
 
   const [events, setEvents] = React.useState<Events[]>([]);
@@ -51,7 +48,7 @@ const HomePage = ({ children }: Props)  => {
   return (
    <div>
    <TopBar />
-    {children}
+   
    </div>
   )
 }
