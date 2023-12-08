@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from 'zod'
-import jwt from 'jsonwebtoken';
-import { createDefaultapps, getDefaultapps } from "@/prisma/apps";
+import { getDefaultapps } from "@/prisma/apps";
 
 
 

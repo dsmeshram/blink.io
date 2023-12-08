@@ -1,14 +1,13 @@
 import { Launchpad } from "./components/Launchpad"
 import { Card, CardBody, CardHeader, Chip, Image } from "@nextui-org/react"
 
-import bg from "./banner.jpg"
+import bg from "./images/banner.jpg"
 import Testimonial from "./components/Testimonial"
 import Pricing from "./components/Pricing"
 
-import anaysis_bg from "./analysis.png"
-import apps_bg from "./3rdoartyapps.png"
-import events_bg from "./events.jpg"
-import { useSession } from "next-auth/react"
+import anaysis_bg from "./images/analysis.png"
+import apps_bg from "./images/3rdoartyapps.png"
+import events_bg from "./images/events.jpg"
 
 
 export default function Home() {
@@ -42,12 +41,14 @@ export default function Home() {
             </div>
             <h1 className="text-center text-6xl sm:text-6xl font-extrabold leading-9 tracking-tight  md:text-6xl" color="#323232">
               Creating you from <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Your Brand</span></h1>
-              <p className="text-6xl text-center font-extrabold">Create, Schedule, share With Blink at your side.</p>
+              <p className="text-6xl text-center font-extrabold" >Create, Schedule, share With Blink at your side.</p>
             <br>
 
             </br>
             <br>
             </br>
+
+            <p className="pt-2">Beautiful, fast and modern Event Managment Platform.</p>
             <Launchpad></Launchpad>
           </div>
 
@@ -134,12 +135,12 @@ export default function Home() {
                 <Pricing/>
         </div>
 
-      </div>
-      <br></br>
+
+        <br></br>
       <br></br>
       <br></br>
 
-      <footer className="text-center px-4 lg:px-40 py-4 h-12 sm:h-20 w-full sm:pt-2 pt-4 border-t mt-5 flex sm:flex-row flex-col justify-between items-center space-y-3 sm:mb-0 mb-3 border-gray-200">
+      <footer className="text-center px-4  py-4 h-12 sm:h-20 w-full  pt-4 border-t mt-5 flex sm:flex-row flex-col justify-between items-center space-y-3 sm:mb-0 mb-3 border-gray-200">
         <div className="text-gray-500">
           </div>
         <div className="flex space-x-4 pb-4 sm:pb-0">
@@ -150,6 +151,9 @@ export default function Home() {
             </a>
         </div>
         </footer>
+
+      </div>
+     
 
     </main>
   )

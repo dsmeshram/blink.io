@@ -36,8 +36,8 @@ export const createDefaultapps = async () => {
 
 export const getDefaultapps = async () => {
 
-    const apps = await prisma.applications.findMany()
+    // const apps = await prisma.applications.findMany()
 
-    return apps
+    return commonevents
 
 }

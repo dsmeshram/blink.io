@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react'
 import { Avatar, Button, Input, Listbox, ListboxItem, Snippet } from "@nextui-org/react";
 import { signIn } from 'next-auth/react';
+import TopBar from '../../components/TopBar';
 
 
 interface App {
@@ -21,7 +22,6 @@ const UserApplicationspage = () => {
 
   const [apps, setApps] = React.useState<Apps[]>([]);
   const [selectedApp, setApp] = React.useState<App>();
-
 
   async function onconnect() {
     signIn("linkedin")
@@ -61,12 +61,16 @@ const UserApplicationspage = () => {
     })
   }
 
+
   useEffect(() => {
     get_user_apps()
   }, [])
 
   return (
-    <div className='p-4 flex gap-4'>
+    <>
+    <div className="grid p-4 h-full w-full">
+
+
       <div className='w-60 '>
         <Listbox
           items={apps}
@@ -96,6 +100,7 @@ const UserApplicationspage = () => {
         <Button color='secondary' onClick={onconnect}  className='w-60'> Connect </Button>
       </div>
     </div>
+    </>
   )
 }
 

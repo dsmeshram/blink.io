@@ -3,7 +3,7 @@ import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Button} fr
 
 const Pricing = () => {
   return (
-    <div className='grid gap-4 text-center items-center w-full grid-cols-3'>
+    <div className='grid gap-4 text-center items-center w-full xl:grid-cols-3 sm:grid-cols-1'>
 
          <Card className="p-4">
             <CardHeader className="justify-center font-semibold">

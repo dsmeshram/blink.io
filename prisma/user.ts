@@ -21,7 +21,7 @@ export const createUser = async (user_name: string, user_email: string) => {
                 user_id: user.id, event_id: pre_define_events[i].id, status: "Active",
                 event: {
                     create: {
-                        avatar: pre_define_events[i].avatar,event_date: pre_define_events[i].event_date, event_desc: pre_define_events[i].event_desc, event_type: pre_define_events[i].event_type, event_name: pre_define_events[i].event_name
+                        create_by: "admin" ,avatar: pre_define_events[i].avatar,event_date: pre_define_events[i].event_date, event_desc: pre_define_events[i].event_desc, event_type: pre_define_events[i].event_type, event_name: pre_define_events[i].event_name
                     }
                 }
             }

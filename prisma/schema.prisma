@@ -22,21 +22,22 @@ model Event {
   event_name String
   event_desc String
   event_date DateTime    @db.Date
-  event_type String
+  event_type Float
   create_by  String      @default("user")
   avatar     String?
+  send_to    String?
   UserEvent  UserEvent[]
   media      Media?      @relation(fields: [id], references: [id])
 }
 
 model UserEvent {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  event_id   String
+  event_id   String   @db.ObjectId
   user_id    String
   status     String
   isDisable  Boolean  @default(false)
   created_on DateTime @default(now())
-  event      Event?   @relation(fields: [id], references: [id])
+  event      Event?   @relation(fields: [event_id], references: [id])
 }
 
 model Media {

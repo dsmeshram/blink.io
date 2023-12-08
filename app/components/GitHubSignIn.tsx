@@ -16,9 +16,9 @@ const GitHubSignIn = () => {
   return (
 
     isSubmitting === true ? (
-      <Button isLoading color='secondary'
+      <Button isLoading 
         type="button" onClick={onclick_g}
-        className="pr-4 flex items-center  hover:bg-gray-300 text-white font-normal hover:border-transparent rounded"
+        className="pr-4 flex items-center bg-slate-800  hover:bg-gray-300 text-white font-normal hover:border-transparent rounded"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -30,9 +30,9 @@ const GitHubSignIn = () => {
         {!isSubmitting ? ('Sign up with GitHub') : ('Loading...')}
       </Button>
     ) : (
-      <Button  color='secondary'
+      <Button  
         type="button" onClick={onclick_g}
-        className="pr-4 flex items-center  hover:bg-gray-300 text-white font-normal hover:border-transparent rounded"
+        className="pr-4 flex items-center bg-slate-400 hover:bg-gray-500 text-white font-normal hover:border-transparent rounded"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
