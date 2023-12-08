@@ -14,8 +14,11 @@ interface Events {
   event_date: string
   status: string
 }
+interface Props {
+  children: React.ReactNode
+}
 
-const HomePage = ({ children }) => {
+const HomePage = ({ children }: Props)  => {
   const router = useRouter();
 
   const [events, setEvents] = React.useState<Events[]>([]);
