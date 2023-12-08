@@ -2,8 +2,7 @@
 
 import React, { useEffect } from 'react'
 import { Avatar, Button, Input, Listbox, ListboxItem, Snippet } from "@nextui-org/react";
-import { signIn } from 'next-auth/react';
-import TopBar from '../../components/TopBar';
+import { signIn, useSession } from 'next-auth/react';
 
 
 interface App {
@@ -22,6 +21,10 @@ const UserApplicationspage = () => {
 
   const [apps, setApps] = React.useState<Apps[]>([]);
   const [selectedApp, setApp] = React.useState<App>();
+
+  const { data: session } = useSession();
+
+  console.log(session?.user?.name)
 
   async function onconnect() {
     signIn("linkedin")
@@ -70,6 +73,7 @@ const UserApplicationspage = () => {
     <>
     <div className="grid p-4 h-full w-full">
 
+      <Button onClick={()=>signIn("linkedin")}> Linkdin connection</Button>
 
       <div className='w-60 '>
         <Listbox

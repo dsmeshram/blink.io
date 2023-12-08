@@ -80,33 +80,10 @@ const authOptions: NextAuthOptions = {
         })
     ],
     callbacks: {
-      //   async jwt({token, user, account}) {
-      //       console.log("checking JWR ....")
-      //       if (account && user){
-      //           return {
-      //               accessToken: account.accessToken,
-      //               accessTokenExpires: Date.now() + account?.expires_in * 1000,
-      //               refreshToken: account.refresh_token,
-      //               user, 
-      //           }
-      //       }
-
-      //       if (Date.now() < token?.accessTokenExpires){
-      //           return token
-      //       }
-
-      //       return refreshAccessToken(token)
-           
-      //  },
-
-      async redirect({ url, baseUrl }) {
-        //this is the default behavior
-        // Allows relative callback URLs
-        if (url.startsWith("/")) return `${baseUrl}${url}`
-        // Allows callback URLs on the same origin
-        else if (new URL(url).origin === baseUrl) return url
-        return baseUrl
-       //Youcan add and modify it your usecase here
+    
+      async signIn({ user, account, profile }) {
+        console.log("user here",user,account,profile)
+        return true;
       }
       },
     
