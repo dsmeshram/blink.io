@@ -63,7 +63,7 @@ model UserApps {
   id         String        @id @default(auto()) @map("_id") @db.ObjectId
   app_id     String        @db.ObjectId
   user_id    String        @db.ObjectId
-  status     String
+  status     String        @default("waiting")
   isDisable  Boolean       @default(false)
   created_on DateTime      @default(now())
   metadata   Json?

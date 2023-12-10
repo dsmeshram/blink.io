@@ -2,16 +2,16 @@
 
 import React, { useEffect } from 'react'
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, ChipProps, Tooltip, Avatar, Pagination, Modal, useDisclosure, ModalContent, ModalHeader, ModalBody, CheckboxIcon, commonColors, Button } from "@nextui-org/react";
-import { CheckCircleIcon, CheckIcon, EyeIcon, LockClosedIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { ArrowSmallRightIcon, CheckCircleIcon, CheckIcon, EyeIcon, LockClosedIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import EventLoading from './EventLoading';
 import Confirmation from './Confirmation';
 import NoEvents from './NoEvents';
 
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
-    Active: "success",
-    paused: "primary",
-    vacation: "primary",
+    success: "success",
+    problem: "primary",
+    waiting: "secondary",
 };
 
 interface Events {
@@ -55,6 +55,11 @@ const EventsTable = (prop: any) => {
     const deleteClick = (e : any) => {
         setEvent(e.target.id)
         onOpen();
+    }
+
+    const sendClick = (e : any) => {
+        setEvent(e.target.id)
+        prop.onSendEvent(e.target.id)
     }
 
     function callback(type: any) {
@@ -122,7 +127,7 @@ const EventsTable = (prop: any) => {
                                            
                                             color={statusColorMap[event.status]}
                                         >
-                                            Success
+                                            {event.status}
                                         </Chip>
                                     </TableCell>
                                     <TableCell>
@@ -134,6 +139,9 @@ const EventsTable = (prop: any) => {
                                                 </Button>
 
                                                 <Button startContent={<LockClosedIcon className='h-4 w-4 bg-transparent' />} id={event.id } disabled={event.isDisable} isIconOnly  onClick={e => deleteClick( e)} aria-label="Like" className=" bg-transparent cursor-pointer active:opacity-50">
+                                                </Button>
+
+                                                <Button startContent={<ArrowSmallRightIcon className='h-4 w-4 bg-transparent' />} id={event.id } disabled={event.isDisable} isIconOnly  onClick={e => sendClick( e)} aria-label="Like" className=" bg-transparent cursor-pointer active:opacity-50">
                                                 </Button>
                                         </div>
                                     </TableCell>

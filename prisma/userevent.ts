@@ -18,7 +18,7 @@ export const create_new_user_event = async (user_id: string, req: any) => {
     if (event_obj != null) {
         const user_event_obj = await prisma.userEvent.create({
             data: {
-                user_id: user_id, status: "Active",
+                user_id: user_id, status: "waiting",
                 event: {
                     create: event_obj
                 }
@@ -38,6 +38,17 @@ export const get_user_event = async (user_id: string) => {
         include :{
             event:true
         } 
+    })
+    return user_event_obj
+}
+
+
+export const get_event_u_e = async (event_id: string) => {
+    const user_event_obj = await prisma.userEvent.findMany({
+        where: { id: event_id},
+        include : {
+            event : true
+        }
     })
     return user_event_obj
 }

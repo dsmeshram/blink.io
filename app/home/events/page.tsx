@@ -1,6 +1,15 @@
 "use client";
 
-import { Button, Checkbox } from "@nextui-org/react";
+import {
+  Button,
+  ButtonGroup,
+  Checkbox,
+  CheckboxGroup,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import React, { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,7 +22,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 const events_type = [
   {
     label: "Welcome New Employees",
@@ -68,10 +77,10 @@ interface Events {
 }
 
 const EventPage = (prop: any) => {
-  const { isOpen, onOpen, onOpenChange,onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [selected, setSelected] = React.useState<any>("EVENTS");
   const [selectedevent, setSelectedEvent] = React.useState<any>();
-
+  const [selectedOption, setSelectedOption] = React.useState(new Set(["Send"]));
   function onselectionchage(type: string) {
     setSelected(type);
   }
@@ -85,9 +94,7 @@ const EventPage = (prop: any) => {
     // data["event_date"] =  data["event_date"]
     if (selectedevent) {
       data["event_id"] = selectedevent.id;
-      data["event_date"] = new Date(
-        selectedevent.event_date
-      ).toISOString();
+      data["event_date"] = new Date(selectedevent.event_date).toISOString();
       const response = await fetch("/api/userevents", {
         method: "PATCH", // or 'POST', 'PUT', etc.
         headers: {
@@ -108,47 +115,45 @@ const EventPage = (prop: any) => {
         toast.success("Update event successfuly !", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        get_events()
-        onClose()
+        get_events();
+        onClose();
       } else {
         alert("event fail to add");
       }
-    }else{
-
-    data["event_date"] = new Date(data.event_date).toISOString();
-    data["event_type"] = Number(data["event_type"]);
-    const response = await fetch("/api/userevents", {
-      method: "POST", // or 'POST', 'PUT', etc.
-      headers: {
-        "Content-Type": "application/json", // Adjust the content type based on your API's requirements
-        Authorization: localStorage.getItem("Authorization") as string, // Add any other headers as needed
-      },
-      // You can include a body for POST or PUT requests
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const result = await response.json();
-
-    if (result.status == 201) {
-      toast.success("Success create event !", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      get_events()
-      onClose()
     } else {
-      toast.success("Error during event creation !", {
-        position: toast.POSITION.TOP_RIGHT,
+      data["event_date"] = new Date(data.event_date).toISOString();
+      data["event_type"] = Number(data["event_type"]);
+      const response = await fetch("/api/userevents", {
+        method: "POST", // or 'POST', 'PUT', etc.
+        headers: {
+          "Content-Type": "application/json", // Adjust the content type based on your API's requirements
+          Authorization: localStorage.getItem("Authorization") as string, // Add any other headers as needed
+        },
+        // You can include a body for POST or PUT requests
+        body: JSON.stringify(data),
       });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+
+      if (result.status == 201) {
+        toast.success("Success create event !", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        get_events();
+        onClose();
+      } else {
+        toast.success("Error during event creation !", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     }
-  }
   };
 
-  function oncalel() {
-  }
+  function oncalel() {}
 
   async function get_events() {
     const response = await fetch("/api/userevents", {
@@ -166,9 +171,28 @@ const EventPage = (prop: any) => {
     }
   }
 
+  async function send_events(event_id: string) {
+    const response = await fetch("/api/triggers", {
+      method: "POST", // or 'POST', 'PUT', etc.
+      headers: {
+        "Content-Type": "application/json", // Adjust the content type based on your API's requirements
+        Authorization: localStorage.getItem("Authorization") as string, // Add any other headers as needed
+      },
+      body: JSON.stringify({ event_id: event_id }),
+    });
+    const result = await response.json();
+    if (result.status == 201) {
+      toast.success("Event send successfullly", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      get_events();
+    } else {
+      toast.success("Event send has a problem", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
   useEffect(() => {
-    
-
     get_events();
   }, []);
 
@@ -176,140 +200,224 @@ const EventPage = (prop: any) => {
     onOpen();
   }
 
-  function onDeleteEvent(event_id : any){
-    const status = toggle_events(true,event_id)
+  function onSendEvent(event_id: any) {
+    send_events(event_id);
   }
 
-  async function toggle_events(flag : Boolean, event_id: String) {
-    const response = await fetch('/api/userevents', {
-      method: 'DELETE', // or 'POST', 'PUT', etc.
+  function onDeleteEvent(event_id: any) {
+    const status = toggle_events(true, event_id);
+  }
+
+  async function toggle_events(flag: Boolean, event_id: String) {
+    const response = await fetch("/api/userevents", {
+      method: "DELETE", // or 'POST', 'PUT', etc.
       headers: {
-        'Content-Type': 'application/json', // Adjust the content type based on your API's requirements
-        'Authorization': localStorage.getItem("Authorization") as string, // Add any other headers as needed
+        "Content-Type": "application/json", // Adjust the content type based on your API's requirements
+        Authorization: localStorage.getItem("Authorization") as string, // Add any other headers as needed
       },
-      body : JSON.stringify({"flag": flag, "event_id": event_id})
+      body: JSON.stringify({ flag: flag, event_id: event_id }),
     });
     const result = await response.json();
     if (result.status == 201) {
-      get_events()
+      get_events();
     }
   }
 
-
-  function onViewEvent(event_id: any){
-    events.map((e : any)=>{
-      if (e.event.id === event_id){
-        setSelectedEvent(e.event)
-          date = new Date(e.event.event_date)
-            .toISOString()
-            .substring(0, 16);
-          setValue("event_name",e.event.event_name);
-          setValue("event_type", e.event.event_type as number, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-          setValue("event_desc", e.event.event_desc, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-          setValue("event_date", date, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-          setValue("send_to", e.event.send_to, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-          onOpen()
+  function onViewEvent(event_id: any) {
+    events.map((e: any) => {
+      if (e.event.id === event_id) {
+        setSelectedEvent(e.event);
+        date = new Date(e.event.event_date).toISOString().substring(0, 16);
+        setValue("event_name", e.event.event_name);
+        setValue("event_type", e.event.event_type as number, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        setValue("event_desc", e.event.event_desc, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        setValue("event_date", date, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        setValue("send_to", e.event.send_to, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        onOpen();
       }
-    })
-   
+    });
+    
   }
+
+  const toBase64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+  
+      fileReader.readAsDataURL(file);
+  
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+  
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const handleImageUpload = async (event : any) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+
+      const response = await fetch("/api/media", {
+        method: "POST", // or 'POST', 'PUT', etc.
+        headers: {
+          'Connection': 'Keep-Alive',
+          'Content-Type': 'application/octet-stream',
+          Authorization: localStorage.getItem("Authorization") as string, // Add any other headers as needed
+        },
+        body: formData,
+      });
+      const result = await response.json();
+      if (result.status == 201) {
+        get_events();
+      }
+    } catch (error) {
+      console.error('Error enhancing image:', error);
+    }
+  };
 
   return (
     <>
       <div className="grid p-4">
         <EventTool add_new_event={add_new_event} />
         <div className="p-4">
-          <EventsTable onViewEvent={(e :any)=>onViewEvent(e)} events={events} isSubmitting={false} onDeleteEvent={(e: any)=>onDeleteEvent(e)}/>
+          <EventsTable
+            onSendEvent={(e: any) => onSendEvent(e)}
+            onViewEvent={(e: any) => onViewEvent(e)}
+            events={events}
+            isSubmitting={false}
+            onDeleteEvent={(e: any) => onDeleteEvent(e)}
+          />
         </div>
       </div>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="full">
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">Event</ModalHeader>
               <form
-                className=" w-full h-full p-8"
+                className=" w-full h-full pl-8 pr-8"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <div className="w-full flex flex-col gap-4">
-                  <p>Event Name</p>
-                  <input
-                    type="text"
-                    className=" w-1/3 border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
-                    {...register("event_name")}
-                  />
-                  <p>Event Date and Time</p>
-                  <input
-                    color="primary"
-                    type="datetime-local"
-                    defaultValue={date}
-                    className="w-fit border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
-                    {...register("event_date")}
-                  />
-                  <p>Select an Event Typ</p>
-                  <select
-                    className=" w-1/3 border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
-                    {...register("event_type")}
-                  >
-                    {events_type.map((animal) => (
-                      <option
-                        key={animal.value as number}
-                        value={animal.value as number}
+                <div>
+                  <div className="grid-cols-2 flex gap-2">
+                    <div className="w-full flex flex-col gap-4 p-4 bg-slate-100 rounded-lg">
+                      <h1 className="font-bold">Event Details</h1>
+                      <p>Event Name</p>
+                      <input
+                        type="text"
+                        className=" w-1/3 border-small rounded-lg p-3 shadow-sm bg-blue-100 "
+                        {...register("event_name")}
+                      />
+                      <p>Event Date and Time</p>
+                      <input
+                        color="primary"
+                        type="datetime-local"
+                        defaultValue={date}
+                        className="w-fit border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
+                        {...register("event_date")}
+                      />
+                      <p>Select Event Type</p>
+                      <select
+                        className=" w-1/3 border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
+                        {...register("event_type")}
                       >
-                        {animal.label}
-                      </option>
-                    ))}
-                  </select>
-                  {/* <Select
-          label="Select an Event Type"
-          className="max-w-xs "
-          color="primary"
-          selectionMode='single'
-          onSelectionChange={(i : any)=>setTypeValue(i)}
-          {...register("event_type")}
-        >
-          {events_type.map((animal) => (
-            <SelectItem key={animal.value as number} value={animal.value as number}>
-              {animal.label}
-            </SelectItem>
-          ))}
-        </Select> */}
-                  <p>Event Details</p>
-                  <textarea
-                    color="primary"
-                    {...register("event_desc")}
-                    placeholder="Enter your description"
-                    className="max-w-xl border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
-                  />
-                  <p>To Email Address</p>
-                  <input
-                    type="email"
-                    color="primary"
-                    className="max-w-xl border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
-                    {...register("send_to")}
-                  />
+                        {events_type.map((animal) => (
+                          <option
+                            key={animal.value as number}
+                            value={animal.value as number}
+                          >
+                            {animal.label}
+                          </option>
+                        ))}
+                      </select>
+                      <p>Event Details</p>
+                      <textarea
+                        color="secondary"
+                        {...register("event_desc")}
+                        placeholder="Enter your description"
+                        className="max-w-xl border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
+                      />
+                      <p>To Email Address</p>
+                      <input
+                        type="email"
+                        color="secondary"
+                        className="max-w-md border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
+                        {...register("send_to")}
+                      />
 
-                  <Checkbox defaultSelected>Auto Generate Tag&lsquo;s</Checkbox>
+                      <Checkbox defaultSelected color="secondary">
+                        Auto Generate Tag&lsquo;s
+                      </Checkbox>
 
-                  <br></br>
-                  <div className="flex justify-end gap-4 pb-4">
-                    <Button onClick={oncalel}>Cancel</Button>
-                    <Button type="submit" color="secondary">
-                      {" "}
-                      Add Event
-                    </Button>
+                      <CheckboxGroup
+                        label="Select Apps where need to share your event"
+                        orientation="horizontal"
+                        color="secondary"
+                        defaultValue={["lidn"]}
+                      >
+                        <Checkbox value="lidn">Linkedin</Checkbox>
+                        <Checkbox value="tw">Twitter/X-corp</Checkbox>
+                        <Checkbox value="fb">Facebook</Checkbox>
+                        <Checkbox value="whtapp">WhatsApp</Checkbox>
+                        <Checkbox value="insta">Instagram</Checkbox>
+                      </CheckboxGroup>
+                    </div>
+
+                    <div className="w-full p-4 bg-slate-100 rounded-lg">
+                      <h1 className="font-bold">Event Attchments</h1>
+                      <div>Attachment</div>
+
+                      <input onChange={handleImageUpload} type="file" accept="image/png, image/jpeg"/>
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-4 p-4">
+                    <Button onClick={onClose}>Cancel</Button>
+                    <ButtonGroup>
+                      <Button type="submit" color="secondary">
+                        Send
+                      </Button>
+                      <Dropdown placement="bottom-end">
+                        <DropdownTrigger>
+                          <Button isIconOnly color="secondary">
+                            <ChevronDownIcon className="h-6 w-6" />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                          disallowEmptySelection
+                          aria-label="Merge options"
+                          selectedKeys={selectedOption}
+                          selectionMode="single"
+                          className="max-w-[300px]"
+                        >
+                          <DropdownItem key="merge">
+                            <Button
+                              className="w-full"
+                              onClick={handleSubmit(onSubmit)}
+                            >
+                              {" "}
+                              Send Now
+                            </Button>
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </ButtonGroup>
                   </div>
                 </div>
               </form>

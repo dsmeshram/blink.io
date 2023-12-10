@@ -20,7 +20,7 @@ export const createUserEvent = async (event_id: string, user_id: string, status:
     
 
     const user_event = await prisma.userEvent.create({
-        data: { event_id: event_id, user_id: user_id, status: "ACTIVE" }
+        data: { event_id: event_id, user_id: user_id, status: "waiting" }
     })
 
     return user_event
@@ -49,6 +49,25 @@ export const toggleUserEvent: any = async (user_id: string, event_id: string, fl
             isDisable : flag
         },
     })
+
+    console.log("updating user event")
     return user_events
 }
+
+
+export const update_status_event: any = async ( event_id: string, status: string) => {
+
+    const user_events = await prisma.userEvent.update({
+        where: {
+            id: event_id,
+        },
+        data: {
+            status : status
+        },
+    })
+
+    console.log("updating user event",status , event_id)
+    return user_events
+}
+
 

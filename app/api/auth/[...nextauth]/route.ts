@@ -81,8 +81,8 @@ const authOptions: NextAuthOptions = {
     ],
     callbacks: {
     
-      async signIn({ user, account, profile }) {
-        console.log("user here",user,account,profile)
+      async signIn({ user, credentials }) {
+        console.log("user here",user,credentials)
         return true;
       }
       },

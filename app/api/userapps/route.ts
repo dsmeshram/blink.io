@@ -27,7 +27,7 @@ export const POST = async (req: NextRequest, res: Response) => {
 
         const user: any = jwt.verify(token as string, process.env.JWT_SECRET as string)
 
-        const user_app = await createuserapp(body.app_id, user.user_id)
+        const user_app = await createuserapp(body.app_id, user.user_id, body.metadata)
 
         return NextResponse.json({ status: 201, data: user_app })
 
