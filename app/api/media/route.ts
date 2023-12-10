@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { getUserApps } from "@/prisma/userapps";
-import formidable from "formidable";
-import { readFileSync, writeFileSync } from "fs";
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 export const POST = async (req: NextRequest, res: Response) => {
   try {
