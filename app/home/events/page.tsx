@@ -9,6 +9,8 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Radio,
+  RadioGroup,
 } from "@nextui-org/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import React, { useEffect } from "react";
@@ -22,7 +24,8 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, PhotoIcon, SpeakerWaveIcon, VideoCameraIcon } from "@heroicons/react/24/outline";
+import MediaGallery from "@/app/components/MediaGallery";
 const events_type = [
   {
     label: "Welcome New Employees",
@@ -77,6 +80,8 @@ interface Events {
 }
 
 const EventPage = (prop: any) => {
+  const [eventtype, setEventtype] = React.useState("Immediately");
+  const [isMedia, setMedia] = React.useState("NO");
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [selected, setSelected] = React.useState<any>("EVENTS");
   const [selectedevent, setSelectedEvent] = React.useState<any>();
@@ -317,57 +322,112 @@ const EventPage = (prop: any) => {
               >
                 <div>
                   <div className="grid-cols-2 flex gap-2">
-                    <div className="w-full flex flex-col gap-4 p-4 bg-slate-100 rounded-lg">
-                      <h1 className="font-bold">Event Details</h1>
-                      <p>Event Name</p>
-                      <input
-                        type="text"
-                        className=" w-1/3 border-small rounded-lg p-3 shadow-sm bg-blue-100 "
-                        {...register("event_name")}
-                      />
-                      <p>Event Date and Time</p>
-                      <input
-                        color="primary"
-                        type="datetime-local"
-                        defaultValue={date}
-                        className="w-fit border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
-                        {...register("event_date")}
-                      />
-                      <p>Select Event Type</p>
-                      <select
-                        className=" w-1/3 border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
-                        {...register("event_type")}
-                      >
-                        {events_type.map((animal) => (
-                          <option
-                            key={animal.value as number}
-                            value={animal.value as number}
-                          >
-                            {animal.label}
-                          </option>
-                        ))}
-                      </select>
-                      <p>Event Details</p>
+                    <div className="w-full flex justify-start flex-col gap-4 p-4  rounded-lg">
+                      
+                      <div className="justify-start grid-flow-row h-48 w-full border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700">
                       <textarea
                         color="secondary"
                         {...register("event_desc")}
                         placeholder="Enter your description"
-                        className="max-w-xl border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
+                        className="w-full h-32 rounded-lg p-2 focus:border-transparent focus:border-0"
                       />
-                      <p>To Email Address</p>
+
+<ButtonGroup  className="pt-1 ">
+      <Button isIconOnly className="cursor-pointer bg-transparent">
+        <PhotoIcon className="w-4 h-4 rounded-xl border-1 "/>
+      </Button>
+      <Button isIconOnly className="cursor-pointer bg-transparent">
+      <VideoCameraIcon className="w-4 h-4"/>
+      </Button>
+      <Button isIconOnly className="cursor-pointer bg-transparent">
+      <SpeakerWaveIcon className="w-4 h-4"/>
+      </Button>
+    </ButtonGroup>
+
+    
+                      </div>
+                      <div className="grid p-4 gap-4   border-1 rounded-lg bg-slate-200">
+                        <div className="flex gap-4">
+                        <RadioGroup
+                        value={isMedia}
+                        onValueChange={setMedia}
+      label="Do you want to attach some media for yur post?"
+      orientation="horizontal"
+    >
+      <Radio value="NO">No</Radio>
+      <Radio value="YES">Yes</Radio>
+    </RadioGroup>
+                        </div>
+                      { isMedia =="YES" && (
+                         <MediaGallery></MediaGallery>
+                      )
+
+                      }
+
+     
+                      </div>
+                     
+                      
+                      
+
+
+                      <div className="bg-slate-200 rounded-lg border-1 p-4">
+                      <RadioGroup
+                      color="secondary"
+      label="When you want to post this event?"
+      orientation="horizontal"
+      value={eventtype}
+      onValueChange={setEventtype}
+    >
+            <Radio value="Immediately">Immediately</Radio>
+      <Radio value="Specific">Specific Date and Time</Radio>
+      </RadioGroup>
+      {eventtype == "Specific" && (<input
+                        color="primary"
+                        type="datetime-local"
+                        defaultValue={date}
+                        className="mt-4 w-fit border-small rounded-lg p-3 shadow-sm  text-blue-700"
+                        {...register("event_date")}
+                      />)}
+
+                      </div>
+
+
+        
+                      
+
+
+          
+                      {/* <input
+                        type="text"
+                        className=" w-1/3 border-small rounded-lg p-3 shadow-sm bg-blue-100 "
+                        {...register("event_name")}
+                      />
+                      <p>Event Date and Time</p> */}
+
+                    
+                    <div className="bg-slate-200 rounded-lg border-1 p-4">
+                    <p className="pb-2">Do you want to send same event to your emails?</p>
                       <input
                         type="email"
-                        color="secondary"
-                        className="max-w-md border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700"
+                        placeholder="Enter email address"
+                        
+                        color="secondary"     
+                        className="max-w-md border-small rounded-lg p-3 shadow-sm  text-blue-700"
                         {...register("send_to")}
                       />
+
+                    </div>
+                 
+                    
+<p>Do you want to auto generate Tag?</p>
 
                       <Checkbox defaultSelected color="secondary">
                         Auto Generate Tag&lsquo;s
                       </Checkbox>
 
                       <CheckboxGroup
-                        label="Select Apps where need to share your event"
+                        label="Do your want to send this event on which Application?"
                         orientation="horizontal"
                         color="secondary"
                         defaultValue={["lidn"]}

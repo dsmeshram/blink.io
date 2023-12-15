@@ -21,6 +21,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 "lifecycleState": "PUBLISHED",
                 "specificContent": {
                     "com.linkedin.ugc.ShareContent": {
+                       
                         "shareCommentary": {
                             "text": `${event[0]?.event?.event_desc as string}`
                         },
