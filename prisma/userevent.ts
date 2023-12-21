@@ -36,8 +36,8 @@ export const get_user_event = async (user_id: string) => {
     const user_event_obj = await prisma.userEvent.findMany({
         where: { user_id: user_id , isDisable : false},
         include :{
-            event:true
-        } 
+            event:true,
+        }
     })
     return user_event_obj
 }
