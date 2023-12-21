@@ -15,7 +15,7 @@ const MediaGallery = (prop: any) => {
   ];
   const [uploading, setUploding] = React.useState(false);
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const onImageFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setUploding(true);
     const fileInput = e.target;
@@ -60,13 +60,11 @@ const MediaGallery = (prop: any) => {
     }
   };
 
-  function handleClick(e: any) {
+  const handleClick =(e: any) => {
     e.preventDefault();
-    const element = inputRef || null
-    if (element != null){
-      inputRef?.current.click();
-    }
-   
+      if(inputRef.current){
+        inputRef.current?.click();
+      }
   }
 
   return (
