@@ -19,25 +19,10 @@ export const POST = async (req: NextRequest, res: Response) => {
     const app = user_apps[0];
     console.log(app);
     if (event && app) {
-      const {others , access_token} = app?.metadata as any
+      const { others, access_token } = app?.metadata as any;
       // const datais = JSON.parse(app?.metadata?.other);
-      const data = {
-        author: `urn:li:person:${others.id as string}`,
-        lifecycleState: "PUBLISHED",
-        specificContent: {
-          "com.linkedin.ugc.ShareContent": {},
-        },
-        visibility: {
-          "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-        },
-      };
-
-      var content = {
-        shareCommentary: {
-          text: `${event[0]?.event?.event_desc as string}`,
-        },
-        shareMediaCategory: "NONE",
-      };
+      
+      let data = {}
       const media = body.attach_media;
       if (media.length != 0) {
         var medias: any[] = [];
@@ -51,16 +36,42 @@ export const POST = async (req: NextRequest, res: Response) => {
             },
           });
         });
-        content = {
+        let content = {
           media: medias,
           shareCommentary: {
             text: `${event[0]?.event?.event_desc as string}`,
           },
           shareMediaCategory: "IMAGE",
         };
+
+        data = {
+          author: `urn:li:person:${others.id as string}`,
+          lifecycleState: "PUBLISHED",
+          specificContent: {
+            "com.linkedin.ugc.ShareContent": content,
+          },
+          visibility: {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
+          },
+        };
+      }else{
+
+        data = {
+          author: `urn:li:person:${others.id as string}`,
+          lifecycleState: "PUBLISHED",
+          specificContent: {
+            "com.linkedin.ugc.ShareContent": {
+              text: `${event[0]?.event?.event_desc as string}`,
+            },
+          },
+          shareMediaCategory: "NONE",
+          visibility: {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
+          },
+        };
       }
 
-      data["specificContent"]["com.linkedin.ugc.ShareContent"] = content;
+      
       const calllinkdin = await fetch("https://api.linkedin.com/v2/ugcPosts", {
         method: "POST", // or 'POST', 'PUT', etc.
         headers: {
