@@ -19,10 +19,10 @@ model User {
 
 model Event {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  event_name String
+  event_name String?
   event_desc String
   event_date DateTime    @db.Date
-  event_type Float
+  event_type Float?
   create_by  String      @default("user")
   avatar     String?
   send_to    String?

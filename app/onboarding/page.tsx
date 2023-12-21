@@ -45,9 +45,10 @@ const OnBoardingPage = () => {
       localStorage.setItem("Authorization", result.token);
       router.replace("/home/events");
     } else {
-      toast.success("Technical error please again later", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+
+      localStorage.removeItem("Authorization")
+   
+      setIsSubmitting(false)
     }
   }
 
@@ -67,7 +68,7 @@ const OnBoardingPage = () => {
     if (result.status == 200) {
       localStorage.setItem("Authorization", result.token);
       setIsSubmitting(false)
-      router.replace("/home");
+      router.replace("/home/events");
     } else {
       setIsSubmitting(false)
     }

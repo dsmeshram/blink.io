@@ -1,28 +1,117 @@
-import React from 'react'
-import {Card, CardBody, CardFooter, Image} from "@nextui-org/react";
+import React, { ChangeEvent, useRef } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Spinner,
+} from "@nextui-org/react";
 
+const MediaGallery = (prop: any) => {
+  const media_list = [
+    { id: 100, img: "", type: 0, title: "ADD NEW" },
+    { id: 100, img: "", type: 0, title: "IMAGE" },
+    { id: 100, img: "", type: 0, title: "IMAGE" },
+    { id: 100, img: "", type: 0, title: "IMAGE" }
+  ];
+  const [uploading, setUploding] = React.useState(false);
 
-const MediaGallery = () => {
-    const media_list = [{id:100,img:"", type:0,title:"ADD NEW"},{id:100,img:"", type:0,title:"title"},{id:100,img:"", type:0,title:"title"},{id:100,img:"", type:0,title:"title"}]
+  const inputRef = useRef(null);
+  const onImageFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    setUploding(true);
+    const fileInput = e.target;
+    if (!fileInput.files) {
+      setUploding(false);
+      return;
+    }
+
+    if (!fileInput.files || fileInput.files.length === 0) {
+      setUploding(false);
+      return;
+    }
+
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/media", {
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("Authorization") as string, // Add any other headers as needed
+        },
+        body: formData,
+      });
+
+      if (!res.ok) {
+        alert("prob");
+      }
+
+      const data = await res.json();
+      if (data.status == 201) {
+        6;
+        media_list.push({ id: 200, type: 0, title: "image data", img: "" });
+        prop.onImageChange(data.img_ref);
+        setUploding(false);
+      }
+    } catch (error) {
+      alert(JSON.stringify(error));
+      setUploding(false);
+    }
+  };
+
+  function handleClick(e: any) {
+    e.preventDefault();
+    const element = inputRef || null
+    if (element != null){
+      inputRef?.current.click();
+    }
+   
+  }
+
   return (
     <>
-  
-    <div className=' p-4 gap-4 grid grid-cols-2 sm:grid-cols-8 border-1 rounded-lg bg-slate-200'>
-      
- {media_list.map((item, index) => (
-    <Card className='bg-slate-100 h-20' shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
-    <CardBody className="overflow-visible p-0 items-center ">
-      <b className='text-center'>{item.title}</b>
-    </CardBody>
-    <CardFooter className="text-small justify-between">
-      
-    </CardFooter>
-  </Card>
-     ))}
+      <div className="gap-2 flex w-full ">
+        {media_list.map((item, index) => (
+          <Card
+            className="bg-slate-100  w-20"
+            shadow="sm"
+            key={index}
+            isPressable
+            onPress={() => console.log("item pressed")}
+          >
+            <CardBody className="overflow-visible p-0">
+              {uploading == true && <Spinner size="lg" />}
 
-    </div>
+              {item.title === "ADD NEW" && (
+                <div className="h-full w-full">
+                  <Button
+                    className="h-20 w-6"
+                    onClick={(e: any) => handleClick(e)}
+                  >
+                    ADD NEW
+                  </Button>
+
+                  <input
+                    ref={inputRef}
+                    hidden
+                    type="file"
+                    className="bg-transparent p-2 border-transparent border-0 h-full"
+                    onChange={onImageFileChange}
+                  />
+                </div>
+              )}
+
+              {item.title != "ADD NEW" && 
+              <div className="flex justify-center text-center h-full ">
+               {item.title}
+              </div>}
+            </CardBody>
+          </Card>
+        ))}
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default MediaGallery
+export default MediaGallery;
