@@ -19,9 +19,10 @@ export const POST = async (req: NextRequest, res: Response) => {
     const app = user_apps[0];
     console.log(app);
     if (event && app) {
-      const datais = JSON.parse(app?.metadata?.other);
+      const {others , access_token} = app?.metadata as any
+      // const datais = JSON.parse(app?.metadata?.other);
       const data = {
-        author: `urn:li:person:${datais.id as string}`,
+        author: `urn:li:person:${others.id as string}`,
         lifecycleState: "PUBLISHED",
         specificContent: {
           "com.linkedin.ugc.ShareContent": {},
@@ -64,7 +65,7 @@ export const POST = async (req: NextRequest, res: Response) => {
         method: "POST", // or 'POST', 'PUT', etc.
         headers: {
           "Content-Type": "application/json", // Adjust the content type based on your API's requirements
-          Authorization: `Bearer ${app?.metadata?.access_token as string}`, // Add any other headers as needed
+          Authorization: `Bearer ${access_token as string}`, // Add any other headers as needed
         },
         body: JSON.stringify(data),
       });
