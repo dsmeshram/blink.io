@@ -263,7 +263,7 @@ const EventPage = (prop: any) => {
                     <div className="w-full flex justify-start flex-col gap-4 p-4  rounded-lg">
                       <div className="justify-start grid-flow-row h-48 w-full border-small rounded-lg p-3 shadow-sm bg-blue-100 text-blue-700">
                         <textarea
-                          maxlength="250"
+                          maxLength={250}
                           color="secondary"
                           {...register("event_desc")}
                           placeholder="Enter your post description"
