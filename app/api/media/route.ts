@@ -56,7 +56,7 @@ export async function POST(req: NextRequest, res: Response) {
           method: "PUT",
           headers: {
             'Accept': 'application/json',
-            Authorization: `Bearer ${app?.metadata?.access_token as string}`, // Add any other headers as needed
+            Authorization: `Bearer ${access_token as string}`, // Add any other headers as needed
           }, // or 'POST', 'PUT', etc.
           body:buffer 
         });
