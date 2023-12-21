@@ -26,7 +26,9 @@ export async function POST(req: NextRequest, res: Response) {
     const user_apps = await getUserApps(user.id);
     const app = user_apps[0];
     if (true) {
-      const datais = JSON.parse(app?.metadata?.other);
+
+      const {others , access_token} = app?.metadata as any
+      const datais = JSON.parse(others);
 
       const uplodimage_url = await fetch(
         "https://api.linkedin.com/v2/images?action=initializeUpload",
@@ -34,7 +36,7 @@ export async function POST(req: NextRequest, res: Response) {
           method: "POST", // or 'POST', 'PUT', etc.
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${app?.metadata?.access_token as string}`, // Add any other headers as needed
+            Authorization: `Bearer ${access_token as string}`, // Add any other headers as needed
           },
           body: JSON.stringify({
             initializeUploadRequest: {
