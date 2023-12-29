@@ -126,8 +126,9 @@ const EventPage = (prop: any) => {
         alert("event fail to add");
       }
     } else {
-      data["event_date"] = new Date(data.event_date).toISOString();
-      data["event_type"] = Number(data["event_type"]);
+      data["event_date"] = new Date(date).toISOString();
+      data["event_type"] = 1;
+      data["event_name"] = "";
       const response = await fetch("/api/userevents", {
         method: "POST", // or 'POST', 'PUT', etc.
         headers: {

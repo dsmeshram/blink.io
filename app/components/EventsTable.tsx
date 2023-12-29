@@ -82,7 +82,7 @@ const EventsTable = (prop: any) => {
                 {prop.isSubmitting && <EventLoading />}
 
 
-                {prop.events.length !=0 && prop.events && <Table removeWrapper aria-label="Example static collection table" bottomContent={
+                {prop.events.length >= 0 && prop.events && <Table removeWrapper aria-label="Example static collection table" bottomContent={
                         <div className="flex w-full justify-end">
                             <Pagination
                                 isCompact
@@ -106,20 +106,19 @@ const EventsTable = (prop: any) => {
                         </TableHeader>
                         <TableBody items={items}>
                             {(event: any) => (
-                                <TableRow key={event.event.id} className='border-b-1'>
+                                <TableRow key={event.event.id} className='border-b-1 h-24'>
                                     <TableCell>
                                         <div className='flex gap-4'>
                                             <Avatar radius="sm" src={event?.event?.avatar} className="w-10 h-10 text-large"></Avatar>
                                             <div className='grid'>
-                                                <span className='font-bold ' color='#323232'>{event.event.event_name}</span>
+                                                <span className='font-bold w-96' color='#323232'>{event.event.event_desc}</span>
                                                 <span className='font-normal text-gray-700'>{event.event.send_to}</span>
                                             </div>
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className='grid'>
-                                            <span className='font-bold text-grey-500' >{new Date(event.event.event_date).toDateString()}</span>
-                                            <span className='font-normal text-grey-800' >{event.event.event_type}</span>
+                                            <span className='font-bold text-grey-500 w-80' >{new Date(event.event.event_date).toDateString()}</span>
                                         </div>
                                     </TableCell>
                                     <TableCell>

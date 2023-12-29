@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@internationalized/date": "^3.5.1",
     "@nextui-org/react": "^2.2.9",
-    "@prisma/client": "^5.7.0",
+    "@prisma/client": "^5.7.1",
     "@types/node": "20.10.0",
     "@types/react": "18.2.38",
     "@types/react-dom": "18.2.17",
@@ -23,12 +24,12 @@
     "eslint-config-next": "14.0.3",
     "framer-motion": "^10.16.5",
     "jsonwebtoken": "^9.0.2",
-    "next": "14.0.3",
+    "next": "^14.0.4",
     "next-auth": "^4.24.5",
     "nodemailer": "^6.9.7",
     "postcss": "8.4.31",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
     "react-linkedin-login-oauth2": "^2.0.1",
     "react-simplemde-editor": "^5.2.0",
@@ -39,9 +40,11 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@swc/cli": "^0.1.63",
+    "@swc/core": "^1.3.101",
     "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.5",
     "axios": "^1.6.2",
-    "prisma": "^5.7.0"
+    "prisma": "^5.7.1"
   }
 }
