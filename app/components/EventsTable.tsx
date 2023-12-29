@@ -111,7 +111,7 @@ const EventsTable = (prop: any) => {
                                         <div className='flex gap-4'>
                                             <Avatar radius="sm" src={event?.event?.avatar} className="w-10 h-10 text-large"></Avatar>
                                             <div className='grid'>
-                                                <span className='font-bold w-96' color='#323232'>{event.event.event_desc}</span>
+                                                <span className='font-bold ' color='#323232'>{event.event.event_name}</span>
                                                 <span className='font-normal text-gray-700'>{event.event.send_to}</span>
                                             </div>
                                         </div>
